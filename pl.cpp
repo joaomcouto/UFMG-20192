@@ -120,3 +120,19 @@ int PL::findPivotRow(int pivotColumn){
     } 
     return pivotRow ;
 } 
+
+void PL::pivoting(int row, int col){
+    int i ,j;
+    for(i = 0 ; i < this->_numColumns ; i++){
+        this->_matrix[row][i] = this->_matrix[row][i]/this->_matrix[row][col] ;
+    }
+    int multiplier ;
+    for(i = 0 ; i < this->_numRows ; i++){
+        if(i != row){
+            multiplier = this->_matrix[i][col] ;
+            for(j = 0 ; j < this->_numColumns ; j ++){
+                this->_matrix[i][j] = this->_matrix[i][j] - multiplier*this->_matrix[row][j] ;
+            }
+        }
+    }
+} 

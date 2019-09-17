@@ -15,7 +15,7 @@ class PL{
         int bNegative();
         int findPivotColumn();
         int findPivotRow(int pivotColumn);
-        
+        void pivoting(int row, int col);
 
     };
     
