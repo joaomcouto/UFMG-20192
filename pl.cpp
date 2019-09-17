@@ -54,11 +54,6 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
     }
 
 
-    
-
-    
-
-
     //if(auxiliar==0){
         
 
@@ -89,3 +84,39 @@ int PL::bNegative(){
     }
     return 0 ;
 }
+
+int PL::findPivotColumn(){
+    int i;
+    int pivotCol ;
+    pivotCol = this->_numRestrictions ;
+    double lowestC = this->_matrix[0][pivotCol] ;
+    for(i=this->_numRestrictions+1; i < this->_numColumns-1 ; i++){
+        if(this->_matrix[0][i] < this->_matrix[0][pivotCol]){
+            pivotCol = i ;
+            lowestC = this->_matrix[0][i] ;
+        }
+    }
+    if (lowestC >= 0) return -1 ; //ja eh otimo
+    return pivotCol;
+}
+
+int PL::findPivotRow(int pivotColumn){
+    int i;
+    int pivotRow = -1 ;
+    int allNegative ;
+    double smallestRatio ;
+    for(i = 1 ; i < this->_numRows ;i++){ //verificacao de que temos pelo menos um positivo
+        if(this->_matrix[i][pivotColumn] > 0){
+            pivotRow = i ;
+            smallestRatio = this->_matrix[i][this->_numColumns-1]/this->_matrix[i][pivotColumn] ; 
+        }
+    }
+    if(pivotRow== -1) return -1 ; //Sao todos negativos ou zero
+    for (i = 1 ; i < this->_numRows ; i++){
+        if((this->_matrix[i][this->_numColumns-1]/this->_matrix[i][pivotColumn] < smallestRatio) && (this->_matrix[i][pivotColumn] > 0)){
+            smallestRatio = this->_matrix[i][this->_numColumns-1]/this->_matrix[i][pivotColumn] ;
+            pivotRow = i ;
+        }
+    } 
+    return pivotRow ;
+} 

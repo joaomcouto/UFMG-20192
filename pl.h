@@ -13,6 +13,9 @@ class PL{
         ~PL();
         void printMatrix();
         int bNegative();
+        int findPivotColumn();
+        int findPivotRow(int pivotColumn);
+        
 
     };
     
