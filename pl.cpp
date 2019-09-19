@@ -147,3 +147,33 @@ void PL::printVero(){
 void PL::printSolutionValue(){
     std::cout<< this->_matrix[0][_numColumns -1] << std::endl ;
 }
+
+void PL::printSolution(){
+    bool isBase = 1 ; 
+    int position = -1 ;
+    int i ,j ;
+    for(i = this->_numRestrictions ; i < (this->_numRestrictions+this->_numVariables-this->_numRestrictions); i++){
+        isBase = 1 ;
+        position = -1 ; 
+        for(j = 1 ;j < this->_numRows ; j++ ){
+            if((this->_matrix[j][i] == 1) && (position == -1) && (isBase ==1)){
+                position = j ;
+            } else {
+                if(this->_matrix[j][i] != 0){
+                    isBase = 0 ;
+                }
+            }
+            
+        }
+        if(isBase==1){
+            std::cout << this->_matrix[position][this->_numColumns-1] << " ";
+        } else {
+            std::cout << 0 << " ";
+        }
+    }
+    std::cout << std::endl; 
+}
+
+void PL::boundlessCertificate(){
+
+}

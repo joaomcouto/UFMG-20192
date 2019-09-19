@@ -19,6 +19,8 @@ class PL{
         void pivoting(int row, int col);
         void printVero();
         void printSolutionValue();
+        void printSolution();
+        void boundlessCertificate();
 
     };
     

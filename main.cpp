@@ -12,7 +12,7 @@ int main (int argc, char const *argv[]){
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
     //std::cout << numRestrictions << " " << numVariables ;
     PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;//Ja retorna na forma de Tableau
-    //original->printMatrix();
+    //
     int needsAuxiliar = original->bNegative(); 
     /*
     if(needsAuxiliar){
@@ -26,6 +26,8 @@ int main (int argc, char const *argv[]){
     if(pivotColumn == -1){
         std::cout << "otima" << std::endl;
         original->printSolutionValue();
+        //original->printMatrix();
+        original->printSolution();
         original->printVero() ; 
         break ;
     } 
@@ -42,6 +44,7 @@ int main (int argc, char const *argv[]){
     //original->printMatrix();
     }
     
+ 
 
 
 
