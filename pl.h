@@ -9,6 +9,7 @@ class PL{
         int _numRows ;
         int _numColumns ;
         double ** _matrix ;
+        double * vero ; 
         PL(int numRestrictions, int numVariables,FILE * entrada, bool auxiliar);
         ~PL();
         void printMatrix();
@@ -16,6 +17,8 @@ class PL{
         int findPivotColumn();
         int findPivotRow(int pivotColumn);
         void pivoting(int row, int col);
+        void printVero();
+        void printSolutionValue();
 
     };
     

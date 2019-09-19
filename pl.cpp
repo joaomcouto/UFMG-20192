@@ -136,3 +136,14 @@ void PL::pivoting(int row, int col){
         }
     }
 } 
+
+void PL::printVero(){
+    int i ;
+    for(i = 0 ; i < this->_numRestrictions ; i++){
+        std::cout<< this->_matrix[0][i] << " " ;
+    }
+}
+
+void PL::printSolutionValue(){
+    std::cout<< this->_matrix[0][_numColumns -1] << std::endl ;
+}
