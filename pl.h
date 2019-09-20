@@ -20,7 +20,9 @@ class PL{
         void printVero();
         void printSolutionValue();
         void printSolution();
-        void boundlessCertificate();
+        void printBoundlessCertificate(int pivotColumn);
+        double fetchSolutionValue();
+
 
     };
     

@@ -10,17 +10,38 @@ int main (int argc, char const *argv[]){
     int numRestrictions, numVariables ;
     entrada = fopen(argv[1],"r");
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
-    //std::cout << numRestrictions << " " << numVariables ;
     PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;//Ja retorna na forma de Tableau
-    //
-    int needsAuxiliar = original->bNegative(); 
-    /*
+    rewind (entrada); 
+    fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
+    int needsAuxiliar = original->bNegative();
     if(needsAuxiliar){
+        PL* auxiliar = new PL(numRestrictions, numVariables,entrada, 1) ;
+        auxiliar->printMatrix() ;
+        while(1){
+            int pivotColumn = auxiliar->findPivotColumn(); //Se retornar -1 eh pq a PL ja ta otima 
+            if(pivotColumn == -1){
+                if(auxiliar->fetchSolutionValue() < 0) {
+                    std::cout << "inviavel" << std::endl; 
+                    auxiliar->printVero();
+                    return 0;
+                } //else {
 
-    }
-    */ //Vou implementar a logica do caso com auxiliar depois, primeiro conseguir casos em que o A ja tem a base
-
+                //}
+                break ;
+            } 
+            int pivotRow = auxiliar->findPivotRow(pivotColumn); //Se retornar -1 é pq a PL é ilimitada
+            if(pivotRow == -1){
+                //auxiliar->printMatrix() ;
+                std::cout << "De alguma forma a auxiliar deu ilimitada, acredito que isso não é um possibilidade" << std::endl ;  
+                break ;
+            } 
+            
+            auxiliar->pivoting(pivotRow, pivotColumn) ;
+        }
+    } 
+    //original->printMatrix() ;
     while(1){
+    
     int pivotColumn = original->findPivotColumn(); //Se retornar -1 eh pq a PL ja ta otima 
     //std::cout <<pivotColumn << std::endl; 
     if(pivotColumn == -1){
@@ -35,14 +56,21 @@ int main (int argc, char const *argv[]){
     int pivotRow = original->findPivotRow(pivotColumn); //Se retornar -1 é pq a PL é ilimitada
     //std::cout <<pivotRow  << std::endl; 
     if(pivotRow == -1){
-        std::cout << "A PL é ilimitada" << std::endl ;
-        //INSERIR AQUI FUNCAO PRA PEGAR O CERT DE ILIMITADA (OTIMO DO AUXILIAR)
+        std::cout << "ilimitada" << std::endl ;
+        original->printSolution();
+        original->printBoundlessCertificate(pivotColumn);
+        
         break ;
     } 
     
     original->pivoting(pivotRow, pivotColumn) ;
+
+
+
+
     //original->printMatrix();
     }
+
     
  
 
