@@ -100,8 +100,6 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
             }
         }
 
-
-
         for (j = this->_numRestrictions + (this->_numVariables-this->_numRestrictions) ; j < this->_numColumns -1 ; j++){ //Init C das variaveis do aux com -1
             this->_matrix[0][j] = -1 ; 
         }
@@ -130,15 +128,10 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
                 this->_matrix[0][i] = -1*this->_matrix[0][i] ;
             }
         }
-        //std::cout << "Antes do pivoteamento dos 1's" << std::endl;
-        //this->printMatrix();
         for (i = 1 ; i < this->_numRows ; i++){ //Pivoteando
             for(j = this->_numRestrictions + (this->_numVariables-this->_numRestrictions) ; j < this->_numColumns -1 ; j++){ 
                 if(j == (i+this->_numRestrictions + (this->_numVariables-this->_numRestrictions-1))){
                     pivoting(i,j) ;
-                    //std::cout << "Resultado pivoteamento de 1" << std::endl;
-                    //this->printMatrix();
-                    //this->_matrix[i][j] = 140; Tava so verificando se ta pivoteando na identidade
                 }
             }
         }
@@ -146,7 +139,6 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
 }
     
 PL::~PL(){
-
 }
 
 void PL::printMatrix(){
@@ -170,7 +162,6 @@ int PL::bNegative(){
 }
 
 int PL::findPivotColumn(){
-    
     int i;
     int pivotCol ;
     pivotCol = this->_numRestrictions ;
@@ -183,18 +174,6 @@ int PL::findPivotColumn(){
     }
     if (lowestC >= 0) return -1 ; //ja eh otimo
     return pivotCol;
-    
-   /*
-   int i , pivotCol;
-   for(i=this->_numRestrictions+1; i < this->_numColumns-1 ; i++){
-       if(this->_matrix[0][i] < 0){
-           return i ;
-       } else {
-           return -1 ;
-       }
-   }
-   */
-
 }
 
 int PL::findPivotRow(int pivotColumn){
@@ -223,11 +202,9 @@ void PL::pivoting(int row, int col){
     double multiplier ;
     multiplier = this->_matrix[row][col] ; 
     for(i = 0 ; i < this->_numColumns ; i++){ //Divide pelo pivot
-    //std::cout << "O numero de colunas eh " << this->_numColumns << std::endl ; 
         this->_matrix[row][i] = this->_matrix[row][i]/multiplier ;
         if(abs(this->_matrix[row][i]) < THRESHOLD) {this->_matrix[row][i] = 0 ;} 
-    }
-    
+    } 
     for(i = 0 ; i < this->_numRows ; i++){
         if(i != row){
             multiplier = this->_matrix[i][col] ;
@@ -264,8 +241,7 @@ void PL::printSolution(){
                 if(this->_matrix[j][i] != 0){
                     isBase = 0 ;
                 }
-            }
-            
+            }   
         }
         if(isBase==1){
             std::cout << this->_matrix[position][this->_numColumns-1] << " ";
@@ -308,7 +284,6 @@ void PL::printBoundlessCertificate(int pivotColumn){
 double PL::fetchSolutionValue(){
     return this->_matrix[0][this->_numColumns-1];
 }
-
 
 void PL::copyAuxiliar(PL * auxiliar){
     int i, j ; 

@@ -29,7 +29,6 @@ int main (int argc, char const *argv[]){
             } 
             int pivotRow = auxiliar->findPivotRow(pivotColumn); //Se retornar -1 é pq a PL é ilimitada
             if(pivotRow == -1){
-                //auxiliar->printMatrix() ;
                 std::cout << "De alguma forma a auxiliar deu ilimitada, acredito que isso não é um possibilidade" << std::endl ;  
                 break ;
             } 
@@ -40,23 +39,18 @@ int main (int argc, char const *argv[]){
 
         original->copyAuxiliar(auxiliar) ;
     } 
-
-    //original->printMatrix() ;
     while(1){
     
     int pivotColumn = original->findPivotColumn(); //Se retornar -1 eh pq a PL ja ta otima 
-    //std::cout <<pivotColumn << std::endl; 
     if(pivotColumn == -1){
         std::cout << "otima" << std::endl;
         original->printSolutionValue();
-        //original->printMatrix();
         original->printSolution();
         original->printVero() ; 
         break ;
     } 
     
     int pivotRow = original->findPivotRow(pivotColumn); //Se retornar -1 é pq a PL é ilimitada
-    //std::cout <<pivotRow  << std::endl; 
     if(pivotRow == -1){
         std::cout << "ilimitada" << std::endl ;
         original->printSolution();
@@ -67,20 +61,5 @@ int main (int argc, char const *argv[]){
     
     original->pivoting(pivotRow, pivotColumn) ;
 
-
-
-
-    //original->printMatrix();
     }
-
-    
- 
-
-
-
-
-
-    
-    
-
 } 
