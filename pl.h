@@ -22,6 +22,7 @@ class PL{
         void printSolution();
         void printBoundlessCertificate(int pivotColumn);
         double fetchSolutionValue();
+        void copyAuxiliar(PL * auxiliar) ;
 
 
     };

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <iomanip>
+#define THRESHOLD 0.00000001 
 
 PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
     if(auxiliar== 0){
@@ -129,11 +130,15 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
                 this->_matrix[0][i] = -1*this->_matrix[0][i] ;
             }
         }
-        this->printMatrix();
+        //std::cout << "Antes do pivoteamento dos 1's" << std::endl;
+        //this->printMatrix();
         for (i = 1 ; i < this->_numRows ; i++){ //Pivoteando
             for(j = this->_numRestrictions + (this->_numVariables-this->_numRestrictions) ; j < this->_numColumns -1 ; j++){ 
                 if(j == (i+this->_numRestrictions + (this->_numVariables-this->_numRestrictions-1))){
                     pivoting(i,j) ;
+                    //std::cout << "Resultado pivoteamento de 1" << std::endl;
+                    //this->printMatrix();
+                    //this->_matrix[i][j] = 140; Tava so verificando se ta pivoteando na identidade
                 }
             }
         }
@@ -148,7 +153,7 @@ void PL::printMatrix(){
     int i,j;
     for(i = 0 ; i < this->_numRows ; i++){
         for(j = 0 ; j < this->_numColumns ; j++){
-            std::cout << std::setw(5) << this->_matrix[i][j] << "  " ;
+            std::cout << std::setw(7) << this->_matrix[i][j] << "  " ;
         }
         std::cout << std::endl;
     }
@@ -165,6 +170,7 @@ int PL::bNegative(){
 }
 
 int PL::findPivotColumn(){
+    
     int i;
     int pivotCol ;
     pivotCol = this->_numRestrictions ;
@@ -177,6 +183,18 @@ int PL::findPivotColumn(){
     }
     if (lowestC >= 0) return -1 ; //ja eh otimo
     return pivotCol;
+    
+   /*
+   int i , pivotCol;
+   for(i=this->_numRestrictions+1; i < this->_numColumns-1 ; i++){
+       if(this->_matrix[0][i] < 0){
+           return i ;
+       } else {
+           return -1 ;
+       }
+   }
+   */
+
 }
 
 int PL::findPivotRow(int pivotColumn){
@@ -202,15 +220,20 @@ int PL::findPivotRow(int pivotColumn){
 
 void PL::pivoting(int row, int col){
     int i ,j;
-    for(i = 0 ; i < this->_numColumns ; i++){
-        this->_matrix[row][i] = this->_matrix[row][i]/this->_matrix[row][col] ;
+    double multiplier ;
+    multiplier = this->_matrix[row][col] ; 
+    for(i = 0 ; i < this->_numColumns ; i++){ //Divide pelo pivot
+    //std::cout << "O numero de colunas eh " << this->_numColumns << std::endl ; 
+        this->_matrix[row][i] = this->_matrix[row][i]/multiplier ;
+        if(abs(this->_matrix[row][i]) < THRESHOLD) {this->_matrix[row][i] = 0 ;} 
     }
-    int multiplier ;
+    
     for(i = 0 ; i < this->_numRows ; i++){
         if(i != row){
             multiplier = this->_matrix[i][col] ;
             for(j = 0 ; j < this->_numColumns ; j ++){
                 this->_matrix[i][j] = this->_matrix[i][j] - multiplier*this->_matrix[row][j] ;
+                if(abs(this->_matrix[i][j]) < THRESHOLD) {this->_matrix[i][j] = 0 ;}
             }
         }
     }
@@ -284,4 +307,18 @@ void PL::printBoundlessCertificate(int pivotColumn){
 }
 double PL::fetchSolutionValue(){
     return this->_matrix[0][this->_numColumns-1];
+}
+
+
+void PL::copyAuxiliar(PL * auxiliar){
+    int i, j ; 
+    for(i = 0 ; i < this->_numRestrictions + this->_numVariables ; i++){ //Copiando o vero, variaveis base, variaveis folga
+        for(j = 1 ; j < this->_numRows ; j++){
+            this->_matrix[j][i] = auxiliar->_matrix[j][i];
+        }
+    }
+
+    for(i = 0 ; i < this->_numRows ; i++){ //Copiando o b ; 
+        this->_matrix[i][this->_numColumns-1] = auxiliar->_matrix[i][auxiliar->_numColumns-1] ;
+    }
 }

@@ -10,13 +10,13 @@ int main (int argc, char const *argv[]){
     int numRestrictions, numVariables ;
     entrada = fopen(argv[1],"r");
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
-    PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;//Ja retorna na forma de Tableau
+    PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;//Ja retorna na forma de Tablea
+
     rewind (entrada); 
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
     int needsAuxiliar = original->bNegative();
     if(needsAuxiliar){
         PL* auxiliar = new PL(numRestrictions, numVariables,entrada, 1) ;
-        auxiliar->printMatrix() ;
         while(1){
             int pivotColumn = auxiliar->findPivotColumn(); //Se retornar -1 eh pq a PL ja ta otima 
             if(pivotColumn == -1){
@@ -24,9 +24,7 @@ int main (int argc, char const *argv[]){
                     std::cout << "inviavel" << std::endl; 
                     auxiliar->printVero();
                     return 0;
-                } //else {
-
-                //}
+                } 
                 break ;
             } 
             int pivotRow = auxiliar->findPivotRow(pivotColumn); //Se retornar -1 é pq a PL é ilimitada
@@ -35,10 +33,14 @@ int main (int argc, char const *argv[]){
                 std::cout << "De alguma forma a auxiliar deu ilimitada, acredito que isso não é um possibilidade" << std::endl ;  
                 break ;
             } 
-            
+
             auxiliar->pivoting(pivotRow, pivotColumn) ;
+
         }
+
+        original->copyAuxiliar(auxiliar) ;
     } 
+
     //original->printMatrix() ;
     while(1){
     
