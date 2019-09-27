@@ -87,11 +87,9 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
                 fscanf(entrada,"%lf", &this->_matrix[i][j]) ;
             }
         }
-
         for(i = this->_numRestrictions ; i < this->_numVariables - this->_numRestrictions ; i++){ //zerando o c
             this->_matrix[0][i] = 0 ;
         }
-
         for (i = 1 ; i < this->_numRows ; i++){ //Init variaveis de folga
             for(j = this->_numRestrictions + (this->_numVariables-this->_numRestrictions-this->_numRestrictions) ; j < this->_numRestrictions + (this->_numVariables-this->_numRestrictions) ; j++){ 
                 if(j == (i+this->_numRestrictions + (this->_numVariables - this->_numRestrictions - this->_numRestrictions )-1)){
@@ -99,11 +97,9 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
                 }
             }
         }
-
         for (j = this->_numRestrictions + (this->_numVariables-this->_numRestrictions) ; j < this->_numColumns -1 ; j++){ //Init C das variaveis do aux com -1
             this->_matrix[0][j] = -1 ; 
         }
-        
         for(i = 1 ; i < this->_numRows ; i++){ //Trocando o sinal dos b para positivo ANTES DE ADICIONAR A IDENTIDADE DO AUX
             if(this->_matrix[i][this->_numColumns-1] < 0){
                 for(j = 0 ; j < this->_numColumns ; j++){
@@ -113,7 +109,6 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
                 }
             }
         }
-
         for (i = 1 ; i < this->_numRows ; i++){ //identidade das colunas aux
             for(j = this->_numRestrictions + (this->_numVariables-this->_numRestrictions) ; j < this->_numColumns -1 ; j++){ 
                 if(j == (i+this->_numRestrictions + (this->_numVariables-this->_numRestrictions-1))){
@@ -121,8 +116,6 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
                 }
             }
         }
-
-
         for (i = 0 ; i < this->_numColumns ; i++){ //Multiplica primeira linha por -1 pra ficar na forma tableaux
             if(this->_matrix[0][i] != 0){
                 this->_matrix[0][i] = -1*this->_matrix[0][i] ;
@@ -139,6 +132,7 @@ PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
 }
     
 PL::~PL(){
+    
 }
 
 void PL::printMatrix(){
@@ -162,7 +156,7 @@ int PL::bNegative(){
 }
 
 int PL::findPivotColumn(){
-    /*
+    /* Uncomment this and comment below to change pivot column criteria so it picks the most negative column in the first row
     int i;
     int pivotCol ;
     pivotCol = this->_numRestrictions ;
@@ -175,8 +169,7 @@ int PL::findPivotColumn(){
     }
     if (lowestC >= 0) return -1 ; //ja eh otimo
     return pivotCol;
-    */
-       
+    */  
    int i , pivotCol;
    for(i=this->_numRestrictions; i < this->_numColumns-1 ; i++){
        if(this->_matrix[0][i] < 0){
@@ -184,8 +177,6 @@ int PL::findPivotColumn(){
        } 
    }
    return -1 ;
-   
-
 }
 
 int PL::findPivotRow(int pivotColumn){

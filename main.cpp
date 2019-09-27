@@ -5,14 +5,10 @@
 
 
 int main (int argc, char const *argv[]){
-
-    FILE* entrada; 
+    FILE* entrada = stdin ; 
     int numRestrictions, numVariables ;
-    entrada = fopen(argv[1],"r");
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
-    PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;//Ja retorna na forma de Tablea
-    original->printMatrix();
-
+    PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;
     rewind (entrada); 
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
     int needsAuxiliar = original->bNegative();
@@ -30,21 +26,14 @@ int main (int argc, char const *argv[]){
             } 
             int pivotRow = auxiliar->findPivotRow(pivotColumn); //Se retornar -1 é pq a PL é ilimitada
             if(pivotRow == -1){
-                std::cout << "De alguma forma a auxiliar deu ilimitada, acredito que isso não é um possibilidade" << std::endl ;  
+                std::cout << "De alguma forma a auxiliar deu ilimitada, possivelmente um erro na implementação"  << std::endl ;  
                 break ;
             } 
-            std::cout <<"Pivoteando auxiliar em " << pivotRow << "," << pivotColumn << " elemento " << auxiliar->_matrix[pivotRow][pivotColumn] << std::endl;
-            auxiliar->printMatrix();
             auxiliar->pivoting(pivotRow, pivotColumn) ;
-            auxiliar->printMatrix();
-            
-
         }
-
         original->copyAuxiliar(auxiliar) ;
     } 
     while(1){
-    
     int pivotColumn = original->findPivotColumn(); //Se retornar -1 eh pq a PL ja ta otima 
     if(pivotColumn == -1){
         std::cout << "otima" << std::endl;
@@ -62,9 +51,6 @@ int main (int argc, char const *argv[]){
         
         break ;
     } 
-    std::cout <<"Pivoteando original em " << pivotRow << "," << pivotColumn << " elemento " << original->_matrix[pivotRow][pivotColumn] << std::endl;
-    original->printMatrix();
     original->pivoting(pivotRow, pivotColumn) ;
-    original->printMatrix();
-    }
+    } 
 } 
