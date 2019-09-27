@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <iomanip>
-#define THRESHOLD 0.00000001 
+#define THRESHOLD 0.000000001
 
 PL::PL(int numRestrictions, int numVariables, FILE * entrada, bool auxiliar){
     if(auxiliar== 0){
@@ -145,7 +145,7 @@ void PL::printMatrix(){
     int i,j;
     for(i = 0 ; i < this->_numRows ; i++){
         for(j = 0 ; j < this->_numColumns ; j++){
-            std::cout << std::setw(7) << this->_matrix[i][j] << "  " ;
+            std::cout << std::setw(3) << this->_matrix[i][j] << "  " ;
         }
         std::cout << std::endl;
     }
@@ -162,6 +162,7 @@ int PL::bNegative(){
 }
 
 int PL::findPivotColumn(){
+    /*
     int i;
     int pivotCol ;
     pivotCol = this->_numRestrictions ;
@@ -174,6 +175,17 @@ int PL::findPivotColumn(){
     }
     if (lowestC >= 0) return -1 ; //ja eh otimo
     return pivotCol;
+    */
+       
+   int i , pivotCol;
+   for(i=this->_numRestrictions; i < this->_numColumns-1 ; i++){
+       if(this->_matrix[0][i] < 0){
+           return i ;
+       } 
+   }
+   return -1 ;
+   
+
 }
 
 int PL::findPivotRow(int pivotColumn){
@@ -185,6 +197,7 @@ int PL::findPivotRow(int pivotColumn){
         if(this->_matrix[i][pivotColumn] > 0){
             pivotRow = i ;
             smallestRatio = this->_matrix[i][this->_numColumns-1]/this->_matrix[i][pivotColumn] ; 
+            break;
         }
     }
     if(pivotRow== -1) return -1 ; //Sao todos negativos ou zero

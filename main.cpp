@@ -11,6 +11,7 @@ int main (int argc, char const *argv[]){
     entrada = fopen(argv[1],"r");
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
     PL* original = new PL(numRestrictions, numVariables,entrada, 0) ;//Ja retorna na forma de Tablea
+    original->printMatrix();
 
     rewind (entrada); 
     fscanf(entrada,"%d %d", &numRestrictions, &numVariables) ;
@@ -32,8 +33,11 @@ int main (int argc, char const *argv[]){
                 std::cout << "De alguma forma a auxiliar deu ilimitada, acredito que isso não é um possibilidade" << std::endl ;  
                 break ;
             } 
-
+            std::cout <<"Pivoteando auxiliar em " << pivotRow << "," << pivotColumn << " elemento " << auxiliar->_matrix[pivotRow][pivotColumn] << std::endl;
+            auxiliar->printMatrix();
             auxiliar->pivoting(pivotRow, pivotColumn) ;
+            auxiliar->printMatrix();
+            
 
         }
 
@@ -58,8 +62,9 @@ int main (int argc, char const *argv[]){
         
         break ;
     } 
-    
+    std::cout <<"Pivoteando original em " << pivotRow << "," << pivotColumn << " elemento " << original->_matrix[pivotRow][pivotColumn] << std::endl;
+    original->printMatrix();
     original->pivoting(pivotRow, pivotColumn) ;
-
+    original->printMatrix();
     }
 } 
